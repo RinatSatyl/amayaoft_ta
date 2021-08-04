@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CardSpawnController : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class CardSpawnController : MonoBehaviour
         cardsOnField.cards.Add(newCardObjectData);
     }
 
-    public void RemoveCard(CardData thisCard)
+    public void RemoveCard(CardObjectData thisCard)
     {
         foreach(CardObjectData card in cardsOnField.cards)
         {
@@ -27,8 +28,18 @@ public class CardSpawnController : MonoBehaviour
             {
                 cardsOnField.cards.Remove(card);
                 Destroy(card.gameObject);
+                break;
             }
         }
+    }
+
+    public void RemoveAllCard()
+    {
+        foreach (CardObjectData card in cardsOnField.cards)
+        {
+            Destroy(card.gameObject);
+        }
+        cardsOnField.cards.Clear();
     }
 
     public bool AllReadyPreset(CardData thisCard)

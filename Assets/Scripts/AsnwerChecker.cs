@@ -6,14 +6,30 @@ using UnityEngine.Events;
 public class AsnwerChecker : MonoBehaviour
 {
     [SerializeField]
+    GameObject WinScreen;
+    [SerializeField]
     TaskCreator taskCreator;
     [SerializeField]
-    UnityEvent AsnwerCorrect = new UnityEvent();
-    public void CheckAnswer(string id)
+    public UnityEvent<bool> AsnwerCorrect = new UnityEvent<bool>();
+    [SerializeField]
+    public UnityEvent ProceedFoward = new UnityEvent();
+    [SerializeField]
+    int lastLevel = 3;
+    public bool IsLastLevel
     {
-        if (id == taskCreator.Asnwer)
+        get
         {
-            AsnwerCorrect.Invoke();
+            return taskCreator.Level == lastLevel;
         }
+    }
+
+    public bool CheckAnswer(string id)
+    {
+        bool isRight = id == taskCreator.Asnwer;
+        return isRight;
+    }
+    public void ActivateWinScreen()
+    {
+        WinScreen.SetActive(true);
     }
 }

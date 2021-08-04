@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class CardObjectData : MonoBehaviour
 {
     [SerializeField]
-    Image sprite;
+    Image image;
     [SerializeField]
     string identifier;
 
@@ -12,7 +12,7 @@ public class CardObjectData : MonoBehaviour
 
     public void SetCardData(CardData thisCardData)
     {
-        sprite = thisCardData.Image;
+        image.sprite = thisCardData.Sprite;
         identifier = thisCardData.Identifier;
     }
 }

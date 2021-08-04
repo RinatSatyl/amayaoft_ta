@@ -7,9 +7,9 @@ public class CardData
 {
     [SerializeField] private string _identifier;
 
-    [SerializeField] private Image _image;
+    [SerializeField] private Sprite _sprite;
 
     public string Identifier => _identifier;
 
-    public Image Image => _image;
+    public Sprite Sprite => _sprite;
 }

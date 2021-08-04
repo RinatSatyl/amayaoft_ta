@@ -14,6 +14,6 @@ public class TaskTextManager : MonoBehaviour
 
     public void SetText(string newText)
     {
-        text.text = newText;
+        text.text = "Find " + newText;
     }
 }

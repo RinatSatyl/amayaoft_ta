@@ -5,29 +5,29 @@ public class GridSize : MonoBehaviour
 {
     [SerializeField]
     Image grid;
-
     [SerializeField]
-    int fieldMinimalHorizontalSize = 3;
+    GridLayoutGroup gridComponent;
 
-    int gridAmount = 0;
     float cardSize = 0;
-    float horizontalSize = 0;
-    float verticalSize = 0;
+    float rows = 3;
+    float collums = 1;
+
+    const int extraPadding = 8;
+    const int optimalGridConfig = 3;
 
     public void ResizeGrid()
     {
-        horizontalSize = (grid.transform.childCount / gridAmount) * cardSize;
-        verticalSize = gridAmount * cardSize;
-        grid.rectTransform.sizeDelta = new Vector2(horizontalSize, verticalSize);
+        grid.rectTransform.sizeDelta = new Vector2((rows * cardSize) + extraPadding, (collums * cardSize) + extraPadding);
     }
 
     public void CalculateGridSize()
     {
-        if (grid.transform.childCount % fieldMinimalHorizontalSize == 0)
+        float sqrRT = Mathf.Sqrt(grid.transform.childCount);
+        if (Mathf.CeilToInt(sqrRT) % optimalGridConfig == 0)
         {
-            gridAmount = grid.transform.childCount / fieldMinimalHorizontalSize;
+            rows = Mathf.CeilToInt(sqrRT);
+            collums = Mathf.CeilToInt(sqrRT);
         }
-        RectTransform rect = (RectTransform)grid.transform.GetChild(0).transform;
-        cardSize = rect.rect.width;
+        cardSize = gridComponent.cellSize.x;
     }
 }

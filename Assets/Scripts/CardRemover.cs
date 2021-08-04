@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CardRemover : MonoBehaviour
 {
     [SerializeField]
     CardsOnField cardsOnField;
+    [SerializeField]
+    UnityEvent<CardObjectData> RemoveThisCard = new UnityEvent<CardObjectData>();
+    [SerializeField]
+    UnityEvent RemoveAllCard = new UnityEvent();
     public void RemoveCards()
     {
-        foreach (CardObjectData card in cardsOnField.cards)
-        {
-            Destroy(card.gameObject);
-        }
+        RemoveAllCard.Invoke();
     }
 
     public void RemoveSpecificCard(string id)
@@ -20,7 +22,7 @@ public class CardRemover : MonoBehaviour
         {
             if (card.Identifier == id)
             {
-                Destroy(card.gameObject);
+                RemoveThisCard.Invoke(card);
                 break;
             }
         }

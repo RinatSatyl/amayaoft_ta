@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RandomCardGenerator : MonoBehaviour
 {
@@ -8,33 +9,37 @@ public class RandomCardGenerator : MonoBehaviour
     CardBundleData[] cardsToSpawn;
     [SerializeField]
     CardSpawnController cardSpawner;
-    [SerializeField]
-    int cardsPerLevel = 3;
-    public void GenerateRandomCard(int level)
+    int totalAmountOfCards = 0;
+
+    void GetCardTotalAmount()
     {
-        // Calculate amount of cards that needs to be spawned
-        int cardsToAdd = level * cardsPerLevel;
-        // Get total amount of cards
-        int totalAmountOfCards = 0;
-        for (int i = 0; i < cardsToSpawn.Length; i++)
+        if (totalAmountOfCards == 0)
         {
-            totalAmountOfCards += cardsToSpawn[i].CardData.Length;
+            // Get total amount of cards
+            for (int i = 0; i < cardsToSpawn.Length; i++)
+            {
+                totalAmountOfCards += cardsToSpawn[i].CardData.Length;
+            }
         }
+    }
+    public void GenerateRandomCard(int toAdd)
+    {
+        GetCardTotalAmount();
         // Add cards to the field 
-        int cardsAdded = 0;
-        for (int i = 0; i < totalAmountOfCards; i++)
+        for (int i = 0; i < toAdd; i++)
         {
             CardData newCard = GetRandomCard();
-            if (cardSpawner.AllReadyPreset(newCard) == false)
+            while (cardSpawner.AllReadyPreset(newCard) == true)
             {
-                cardSpawner.AddCard(newCard);
-                cardsAdded++;
+                newCard = GetRandomCard();
             }
-            if (cardsAdded == cardsToAdd)
-            {
-                break;
-            }
+            cardSpawner.AddCard(newCard);
         }
+    }
+
+    void SpawnCards()
+    {
+
     }
 
     CardData GetRandomCard()
